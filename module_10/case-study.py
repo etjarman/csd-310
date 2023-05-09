@@ -1,7 +1,32 @@
-import mysql.connector
 
-db = mysql.connector.connect(host="localhost", port="3306", user="root", passwd="FallOut0023!",
-                             database="bacchuswinery")
+
+import mysql.connector
+from mysql.connector import errorcode
+
+config = {
+    "user": "movies_user",
+    "password": "popcorn",
+    "host": "127.0.0.1",
+    "database": "bacchuswinery",
+    "raise_on_warnings": True
+}
+
+try:
+    db = mysql.connector.connect(**config)
+
+    print("\n  Database user {} connected to MySQL on host {} with database {}".format(config["user"], config["host"], config["database"]))
+
+    input("\n\n  Press confirm key to continue...")
+
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("  The supplied username or password are invalid")
+
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("  The specified database does not exist")
+
+    else:
+        print(err)
 
 cursor = db.cursor()
 
@@ -110,3 +135,4 @@ show_Dept(cursor, "Displaying Department Table")
 show_Dist(cursor, "Displaying Distribution Table")
 show_Supp(cursor, "Displaying Supplier Table")
 show_Win(cursor, "Displaying Winery Table")
+
