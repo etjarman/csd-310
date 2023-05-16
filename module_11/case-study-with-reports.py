@@ -183,7 +183,8 @@ for row in result:
 cursor.execute("SELECT supplier.Supplier_name as 'Supplier', "
                "SUM(supplier.Supplier_inventory) as 'Total Inventory', "
                "supplier.Supply_order_date as 'Delivered', "
-               "supplier.Expected_delivery_date as 'Expecting' "
+               "supplier.Expected_delivery_date as 'Expecting', "
+               "supplier.Component_name as Component "
                "FROM supplier "
                "GROUP BY supplier.Supplier_id "
                "ORDER BY supplier.Supply_delivery_date")
@@ -191,8 +192,8 @@ cursor.execute("SELECT supplier.Supplier_name as 'Supplier', "
 result = cursor.fetchall()
 
 print("\nReport 3: Inventory by Supplier\n")
-print("Supplier\tTotal Inventory\tDelivered\tExpected")
-print("-------   \t---------------\t---------\t---------")
+print("Supplier\tItem\t\t\tTotal Inventory\t   Delivered\tExpected")
+print("--------\t----\t\t\t---------------\t   ---------\t--------")
 
 for row in result:
-    print("{}\t{}   \t{}\t{}".format(row[0], row[1], row[2], row[3]))
+    print("{}\t{}  \t{}   \t   {}\t{}".format(row[0], row[4], row[1], row[2], row[3]))
